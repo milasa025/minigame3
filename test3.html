@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>寻宝游戏</title>
+    <title>Treasure Hunting Game</title>
     <style>
         * {
             box-sizing: border-box;
@@ -104,14 +104,14 @@
     <p id="hint">Find hidden treasure chests in pictures!</p>
     
     <div id="game-container">
-        <!-- 主背景图片 - 已更名为parkchair.jpg -->
-        <img id="main-image" src="cs_A07.jpg" alt="学院">
+        <!-- Main Background Image - Have changed to parkchair.jpg -->
+        <img id="main-image" src="cs_A07.jpg" alt="School">
         
-        <!-- 固定位置的宝藏图标 -->
-        <img id="treasure" src="treasure.png" alt="宝箱" style="top: 23%; left: 80%;">
+        <!-- Fixed location treasure icon -->
+        <img id="treasure" src="treasure.png" alt="Treasure" style="top: 23%; left: 80%;">
     </div>
     
-    <!-- 弹出窗口 -->
+    <!-- Pop up window -->
     <div id="congrats-modal" class="modal">
         <div class="modal-content">
             <h2>🎉 Congratulations！</h2>
@@ -122,33 +122,33 @@
     </div>
     
     <script>
-        // 获取DOM元素
+        // Get DOM
         const treasure = document.getElementById('treasure');
         const modal = document.getElementById('congrats-modal');
         const gameContainer = document.getElementById('game-container');
         
-        // 点击宝藏事件（同时支持触摸屏）
+        // Click treasure event（supports touch scree）
         treasure.addEventListener('click', showCongrats);
         treasure.addEventListener('touchend', function(e) {
-            e.preventDefault(); // 防止触摸后触发其他事件
+            e.preventDefault(); // Prevent triggering other events after touch
             showCongrats();
         });
         
-        // 显示恭喜弹窗
+        // Display a congratulation pop-up window
         function showCongrats() {
             modal.style.display = 'flex';
-            // 震动反馈（支持移动设备）
+            // Vibration feedback (supports mobile devices)
             if (window.navigator.vibrate) {
                 window.navigator.vibrate(200);
             }
         }
         
-        // 关闭弹窗
+        // Close the pop-up window
         function closeModal() {
             modal.style.display = 'none';
         }
         
-        // 确保图片容器比例正确
+        // Ensure that the proportion of the image container is correct
         function adjustContainer() {
             const img = document.getElementById('main-image');
             if (img.naturalWidth > 0) {
@@ -156,11 +156,11 @@
             }
         }
         
-        // 页面加载时和窗口大小改变时调整容器
+        // Adjust containers during page loading and window size changes
         window.addEventListener('load', adjustContainer);
         window.addEventListener('resize', adjustContainer);
         
-        // 图片加载完成后调整容器
+        // Adjust container after picture loading
         document.getElementById('main-image').addEventListener('load', adjustContainer);
     </script>
 </body>
