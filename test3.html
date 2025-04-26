@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>寻宝游戏</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin: 0;
+            touch-action: manipulation;
+        }
+        
+        h1 {
+            color: #8B4513;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        #game-container {
+            position: relative;
+            margin: 0 auto;
+            max-width: 100%;
+            border: 3px solid #8B4513;
+            box-shadow: 0 0 5px rgba(0,0,0,0.3);
+            overflow: hidden;
+            background-color: #000;
+        }
+        
+        #main-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        #treasure {
+            position: absolute;
+            width: 8vw;
+            height: 8vw;
+            max-width: 40px;
+            max-height: 40px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            z-index: 10;
+        }
+        
+        #treasure:active {
+            transform: scale(1.3);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: #FFD700;
+            padding: 20px;
+            border-radius: 10px;
+            width: 85%;
+            max-width: 300px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255,215,0,0.7);
+            border: 2px solid #8B4513;
+        }
+        
+        .close-btn {
+            margin-top: 15px;
+            padding: 8px 20px;
+            background-color: #8B4513;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        #hint {
+            margin: 10px 0;
+            font-style: italic;
+            color: #555;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Treasure Hunting</h1>
+    <p id="hint">Find hidden treasure chests in pictures!</p>
+    
+    <div id="game-container">
+        <!-- 主背景图片 - 已更名为parkchair.jpg -->
+        <img id="main-image" src="cs_A07.jpg" alt="学院">
+        
+        <!-- 固定位置的宝藏图标 -->
+        <img id="treasure" src="treasure.png" alt="宝箱" style="top: 23%; left: 80%;">
+    </div>
+    
+    <!-- 弹出窗口 -->
+    <div id="congrats-modal" class="modal">
+        <div class="modal-content">
+            <h2>🎉 Congratulations！</h2>
+            <p>You have found the hidden treasure chest!</p>
+            <p>Please go to that location and find the clue for the next puzzle.</p>
+            <button class="close-btn" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+    
+    <script>
+        // 获取DOM元素
+        const treasure = document.getElementById('treasure');
+        const modal = document.getElementById('congrats-modal');
+        const gameContainer = document.getElementById('game-container');
+        
+        // 点击宝藏事件（同时支持触摸屏）
+        treasure.addEventListener('click', showCongrats);
+        treasure.addEventListener('touchend', function(e) {
+            e.preventDefault(); // 防止触摸后触发其他事件
+            showCongrats();
+        });
+        
+        // 显示恭喜弹窗
+        function showCongrats() {
+            modal.style.display = 'flex';
+            // 震动反馈（支持移动设备）
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate(200);
+            }
+        }
+        
+        // 关闭弹窗
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+        
+        // 确保图片容器比例正确
+        function adjustContainer() {
+            const img = document.getElementById('main-image');
+            if (img.naturalWidth > 0) {
+                gameContainer.style.height = img.clientHeight + 'px';
+            }
+        }
+        
+        // 页面加载时和窗口大小改变时调整容器
+        window.addEventListener('load', adjustContainer);
+        window.addEventListener('resize', adjustContainer);
+        
+        // 图片加载完成后调整容器
+        document.getElementById('main-image').addEventListener('load', adjustContainer);
+    </script>
+</body>
+</html>
